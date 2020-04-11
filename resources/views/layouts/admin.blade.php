@@ -97,14 +97,14 @@
                                 <p>Fitur</p>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="{{ url('/dashboard/activities/') }}"
                                 class="nav-link @if($segment == 'activities') active @endif"
                             >
                                 <i class="nav-icon fa fa-tasks"></i>
                                 <p>Aktivitas</p>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
                             <a href="{{ url('/dashboard/blogs/') }}"
                                 class="nav-link @if($segment == 'blogs') active @endif"

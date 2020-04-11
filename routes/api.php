@@ -20,6 +20,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
 
-    Route::get('/latestNews', 'Api\NewsController@getLatestNews');
+    Route::group(['prefix' => 'news'], function () {
+        Route::get('/', 'Api\NewsController@index');
+        Route::get('/latest', 'Api\NewsController@latest');
+    });
+
+    Route::group(['prefix' => 'blogs'], function () {
+        Route::get('/', 'Api\BlogsController@index');
+        Route::get('/latest', 'Api\BlogsController@latest');
+    });
+
+    Route::group(['prefix' => 'features'], function () {
+        Route::get('/', 'Api\FeaturesController@index');
+        Route::get('/latest', 'Api\FeaturesController@latest');
+    });
 
 });

@@ -3,23 +3,24 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Features;
 use Illuminate\Http\Request;
-use App\Models\Blog;
 
-class BlogsController extends Controller
+class FeaturesController extends Controller
 {
     public function latest()
     {
-        $blogs = Blog::latest()->get();
+        $features = Features::latest()->get();
         return response()->json([
-            'data' => $blogs
+            'data' => $features
         ], 200);
     }
 
-    public function index() {
-        $blogs = Blog::all();
+    public function index()
+    {
+        $features = Features::all();
         return response()->json([
-            'data' => $blogs
+            'data' => $features
         ], 200);
     }
 
