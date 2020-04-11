@@ -9,7 +9,8 @@ var editor_config = {
     ],
     toolbar:
         "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media",
-    relative_urls: false,
+    relative_urls : false,
+    remove_script_host : false,
     file_browser_callback: function(field_name, url, type, win) {
         var x =
             window.innerWidth ||

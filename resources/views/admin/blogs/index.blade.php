@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Berita</h1>
+                    <h1 class="m-0 text-dark">Blog</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -14,7 +14,7 @@
                                 Dashboard
                             </a>
                         </li>
-                        <li class="breadcrumb-item active">Berita</li>
+                        <li class="breadcrumb-item active">Blog</li>
                     </ol>
                 </div>
             </div>
@@ -24,11 +24,11 @@
     <section class="content">
         <div class="container-fluid">
             <p>
-                <a href="{{ url('/dashboard/news/create') }}" class="btn btn-primary">
-                    Tambahkan Berita
+                <a href="{{ url('/dashboard/blogs/create') }}" class="btn btn-primary">
+                    Tambahkan Blog
                 </a>
             </p>
-            <table class="table table-bordered table-striped" id="news-table" style="width: 100%;">
+            <table class="table table-bordered table-striped" id="blogs-table" style="width: 100%;">
                <thead>
                   <tr>
                      <th style="width: 5%;">Id</th>
@@ -40,18 +40,25 @@
             </table>
             <script>
                 $(function() {
-                    $('#news-table').DataTable({
+                    $('#blogs-table').DataTable({
                         processing: true,
                         serverSide: true,
-                        ajax: '{{ url('dashboard/news/json') }}',
+                        responsive: true,
+                        ajax: '{{ url('dashboard/blogs/json') }}',
                         columns: [
                             { data: 'id', name: 'id' },
-                            { data: 'title', name: 'title' },
+                            { 
+                                data: 'title', 
+                                name: 'title',
+                                render: function(data, type, row) {
+                                    return type === 'display' && data.length > 30 ? data.substr(0, 30) + '...' : data;
+                                }
+                            },
                             {
                                 data: 'body',
                                 name: 'body',
                                 render: function(data, type, row) {
-                                    return type === 'display' && data.length > 50 ? data.substr(0, 50) + '...' : data;
+                                    return type === 'display' && data.length > 70 ? stripHtml(data.substr(0, 70)) + '...' : stripHtml(data);
                                 }
                             },
                             {
@@ -66,7 +73,7 @@
                             }
                         ],
                         "language": {
-                            "emptyTable": "Berita tidak tersedia"
+                            "emptyTable": "Blog tidak tersedia"
                         }
                     });
                 });

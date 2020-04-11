@@ -32,7 +32,27 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
         Route::post('/store', 'Admin\NewsController@store');
         Route::get('/edit/{id}', 'Admin\NewsController@edit');
         Route::put('/update/{id}', 'Admin\NewsController@update');
-        Route::delete('/delete/{id}', 'Admin\NewsController@destroy');
+        Route::get('/delete/{id}', 'Admin\NewsController@destroy');
+    });
+
+    Route::group(['prefix' => 'features'], function () {
+        Route::get('/', 'Admin\FeaturesController@index');
+        Route::get('/json', 'Admin\FeaturesController@json');
+        Route::get('/create', 'Admin\FeaturesController@create');
+        Route::post('/store', 'Admin\FeaturesController@store');
+        Route::get('/edit/{id}', 'Admin\FeaturesController@edit');
+        Route::put('/update/{id}', 'Admin\FeaturesController@update');
+        Route::get('/delete/{id}', 'Admin\FeaturesController@destroy');
+    });
+
+    Route::group(['prefix' => 'blogs'], function () {
+        Route::get('/', 'Admin\BlogsController@index');
+        Route::get('/json', 'Admin\BlogsController@json');
+        Route::get('/create', 'Admin\BlogsController@create');
+        Route::post('/store', 'Admin\BlogsController@store');
+        Route::get('/edit/{id}', 'Admin\BlogsController@edit');
+        Route::put('/update/{id}', 'Admin\BlogsController@update');
+        Route::get('/delete/{id}', 'Admin\BlogsController@destroy');
     });
 
 });

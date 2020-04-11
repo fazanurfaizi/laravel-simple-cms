@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Features extends Model
+class Blog extends Model
 {
     protected $fillable = [
-        'user_id', 'title', 'slug', 'body', 'image'
+        'user_id', 'title',
+        'slug', 'body',
+        'image'
     ];
 
     protected $hidden = [

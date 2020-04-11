@@ -14,7 +14,7 @@
                                 Dashboard
                             </a>
                         </li>
-                        <li class="breadcrumb-item active">Berita</li>
+                        <li class="breadcrumb-item active">Fitur</li>
                     </ol>
                 </div>
             </div>
@@ -24,11 +24,11 @@
     <section class="content">
         <div class="container-fluid">
             <p>
-                <a href="{{ url('/dashboard/news/create') }}" class="btn btn-primary">
+                <a href="{{ url('/dashboard/features/create') }}" class="btn btn-primary">
                     Tambahkan Berita
                 </a>
             </p>
-            <table class="table table-bordered table-striped" id="news-table" style="width: 100%;">
+            <table class="table table-bordered table-striped" id="features-table" style="width: 100%;">
                <thead>
                   <tr>
                      <th style="width: 5%;">Id</th>
@@ -40,10 +40,10 @@
             </table>
             <script>
                 $(function() {
-                    $('#news-table').DataTable({
+                    $('#features-table').DataTable({
                         processing: true,
                         serverSide: true,
-                        ajax: '{{ url('dashboard/news/json') }}',
+                        ajax: '{{ url('dashboard/features/json') }}',
                         columns: [
                             { data: 'id', name: 'id' },
                             { data: 'title', name: 'title' },
@@ -66,7 +66,7 @@
                             }
                         ],
                         "language": {
-                            "emptyTable": "Berita tidak tersedia"
+                            "emptyTable": "Fitur tidak tersedia"
                         }
                     });
                 });

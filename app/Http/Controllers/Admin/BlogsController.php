@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Blog;
 use Illuminate\Http\Request;
-use App\Models\News;
 use DataTables;
 use Image;
 
-class NewsController extends Controller
+class BlogsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,28 +17,22 @@ class NewsController extends Controller
      */
     public function index()
     {
-        return view('admin.news.index');
+        return view('admin.blogs.index');
     }
 
     public function json() {
-        return DataTables::of(News::query())
+        return DataTables::of(Blog::query())
             ->addColumn('edit_url', function($row) {
-                return url('dashboard/news/edit/' . $row->id);
+                return url('dashboard/blogs/edit/' . $row->id);
             })
             ->addColumn('delete_url', function($row) {
-                return url('dashboard/news/delete/' . $row->id);
+                return url('dashboard/blogs/delete/' . $row->id);
             })
             ->make(true);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('admin.news.create');
+    public function create() {
+        return view('admin.blogs.create');
     }
 
     /**
@@ -49,14 +43,13 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        $news = New News();
-        $news->user_id = auth()->user()->id;
-        $news->title = $request->title;
-        $news->slug = str_slug($request->title);
-        $news->body = $request->body;
+        $blog = new Blog();
+        $blog->user_id = auth()->user()->id;
+        $blog->title = $request->title;
+        $blog->slug = str_slug($request->title);
+        $blog->body = $request->body;
 
-
-        $imagePath = public_path('/images/news/');
+        $imagePath = public_path('/images/blogs/');
         if(!file_exists($imagePath)) {
             mkdir($imagePath, 666, true);
         }
@@ -68,81 +61,73 @@ class NewsController extends Controller
             $thumbnail = Image::make($image->getRealPath())->resize(512, 512);
             $thumbnailLocation = $imagePath . $imageName;
             $thumbnailImage = Image::make($thumbnail)->save($thumbnailLocation);
-            $news->image = $imageName;
+            $blog->image = $imageName;
         } else {
-            $news->image = 'default-news.jpg';
+            $blog->image = 'default-image.jpg';
         }
 
-        $news->save();
+        $blog->save();
 
-        return redirect('dashboard/news/')->with('success', 'Berita berhasil ditambahkan');
+        return redirect('/dashboard/blogs/')->with('success', 'Blog berhasil ditambahkan');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Blog  $blog
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Blog $blog)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $news = News::find($id);
-        $data['news'] = $news;
-        return view('admin.news.edit', $data);
+    public function edit($id) {
+        $data['blog'] = Blog::find($id);
+        return view('admin.blogs.edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Blog  $blog
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $news = News::find($id);
+        $blog = Blog::find($id);
 
-        $news->title = $request->title;
-        $news->body = $request->body;
-        $news->slug = str_slug($request->title);
+        $blog->title = $request->title;
+        $blog->body = $request->body;
+        $blog->slug = str_slug($request->title);
 
         if($request->hasFile('image')) {
-            $imagePath = public_path('/images/news/');
+            $imagePath = public_path('/images/blogs/');
             $image = $request->image;
             $ext = $request->image->getClientOriginalExtension();
             $imageName = date('YmdHis') . rand(1, 999999) . '.' . $ext;
             $thumbnail = Image::make($image->getRealPath())->resize(512, 512);
             $thumbnailLocation = $imagePath . $imageName;
             $thumbnailImage = Image::make($thumbnail)->save($thumbnailLocation);
-            $news->image = $imageName;
+            $blog->image = $imageName;
         }
 
-        $news->save();
+        $blog->save();
 
-        return redirect('dashboard/news/')->with('success', 'Berita berhasil diedit');
+        return redirect('dashboard/blogs/')->with('success', 'Blog berhasil diedit');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Blog  $blog
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $news = News::find($id);
-        $news->delete();
-        return redirect('dashboard/news/')->with('success', 'Berita berhasil dihapus');
+        $blog = Blog::find($id);
+        $blog->delete();
+        return redirect('/dashboard/blogs/')->with('success', 'Blog berhasil dihapus');
     }
 }

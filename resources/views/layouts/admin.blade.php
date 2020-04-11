@@ -89,6 +89,30 @@
                                 <p>Berita</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/dashboard/features/') }}"
+                                class="nav-link @if($segment == 'features') active @endif"
+                            >
+                                <i class="nav-icon fa fa-star"></i>
+                                <p>Fitur</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/dashboard/activities/') }}"
+                                class="nav-link @if($segment == 'activities') active @endif"
+                            >
+                                <i class="nav-icon fa fa-tasks"></i>
+                                <p>Aktivitas</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/dashboard/blogs/') }}"
+                                class="nav-link @if($segment == 'blogs') active @endif"
+                            >
+                                <i class="nav-icon fa fa-book"></i>
+                                <p>Blog</p>
+                            </a>
+                        </li>
                         <li class="nav-header"></li>
                         <li class="nav-item">
                             <a href="{{ route('logout') }}" class="nav-link"

@@ -27,9 +27,25 @@ class NewsController extends Controller
      * @param  \App\Models\News  $news
      * @return \Illuminate\Http\Response
      */
-    public function show(News $news)
+    public function getAll()
     {
-        //
+        $news = News::all();
+        return response()->json([
+            'data' => $news
+        ], 200);
+    }
+
+    public function show($slug) {
+        $news = News::where('slug', '=', $slug);
+        if(!$news) {
+            return response()->json([
+                'message' => "Berita tidak ditemukan"
+            ], 404);
+        }
+
+        return response()->json([
+            'data' => $news
+        ]);
     }
 
 }
