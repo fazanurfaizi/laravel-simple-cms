@@ -97,14 +97,22 @@
                                 <p>Fitur</p>
                             </a>
                         </li>
-                        {{-- <li class="nav-item">
-                            <a href="{{ url('/dashboard/activities/') }}"
-                                class="nav-link @if($segment == 'activities') active @endif"
+                        <li class="nav-item">
+                            <a href="{{ url('/dashboard/layanan-hukum') }}"
+                                class="nav-link @if($segment == 'layanan-hukum') active @endif"
                             >
-                                <i class="nav-icon fa fa-tasks"></i>
-                                <p>Aktivitas</p>
+                                <i class="nav-icon fa fa-ruble"></i>
+                                <p>Layanan Hukum</p>
                             </a>
-                        </li> --}}
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/dashboard/layanan-publik') }}"
+                                class="nav-link @if($segment == 'layanan-publik') active @endif"
+                            >
+                                <i class="nav-icon fa fa-ruble"></i>
+                                <p>Layanan Publik</p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="{{ url('/dashboard/blogs/') }}"
                                 class="nav-link @if($segment == 'blogs') active @endif"

@@ -17,13 +17,31 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 Auth::routes(['verify' => true]);
 
-Route::get('/', 'WelcomeController@index');
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index');
 
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
 
     Route::get('/', 'Admin\DashboardController@index');
+
+    Route::group(['prefix' => 'layanan-publik'], function () {
+        Route::get('/', 'Admin\PublikController@index');
+        Route::get('/json', 'Admin\PublikController@json');
+        Route::get('/create', 'Admin\PublikController@create');
+        Route::post('/store', 'Admin\PublikController@store');
+        Route::get('/edit/{id}', 'Admin\PublikController@edit');
+        Route::put('/update/{id}', 'Admin\PublikController@update');
+        Route::get('/delete/{id}', 'Admin\PublikController@destroy');
+    });
+
+    Route::group(['prefix' => 'layanan-hukum'], function () {
+        Route::get('/', 'Admin\HukumController@index');
+        Route::get('/json', 'Admin\HukumController@json');
+        Route::get('/create', 'Admin\HukumController@create');
+        Route::post('/store', 'Admin\HukumController@store');
+        Route::get('/edit/{id}', 'Admin\HukumController@edit');
+        Route::put('/update/{id}', 'Admin\HukumController@update');
+        Route::get('/delete/{id}', 'Admin\HukumController@destroy');
+    });
 
     Route::group(['prefix' => 'news'], function () {
         Route::get('/', 'Admin\NewsController@index');

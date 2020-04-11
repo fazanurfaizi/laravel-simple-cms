@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Aktivitas</h1>
+                    <h1 class="m-0 text-dark">Berita</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -14,7 +14,7 @@
                                 Dashboard
                             </a>
                         </li>
-                        <li class="breadcrumb-item active">Aktivitas</li>
+                        <li class="breadcrumb-item active">Berita</li>
                     </ol>
                 </div>
             </div>
@@ -24,48 +24,51 @@
     <section class="content">
         <div class="container-fluid">
             <p>
-                <a href="{{ url('/dashboard/activities/activities') }}" class="btn btn-primary">
-                    Tambahkan Berita
+                <a href="{{ url('/dashboard/layanan-publik/create') }}" class="btn btn-primary">
+                    Tambahkan Layanan Publik
                 </a>
             </p>
-            <table class="table table-bordered table-striped" id="activities-table" style="width: 100%;">
+            <table class="table table-bordered table-striped" id="news-table" style="width: 100%;">
                <thead>
                   <tr>
                      <th style="width: 5%;">Id</th>
-                     <th style="width: 30;">Title</th>
-                     <th style="width: 50%">Body</th>
-                     <th style="width: 15%;">Action</th>
+                     <th style="width: 30;">Type</th>
+                     <th style="width: 45%">Body</th>
+                     <th style="width: 20%;">Action</th>
                   </tr>
                </thead>
             </table>
             <script>
                 $(function() {
-                    $('#activities-table').DataTable({
+                    $('#news-table').DataTable({
                         processing: true,
                         serverSide: true,
-                        ajax: '{{ url('dashboard/activities/json') }}',
+                        scrollX: true,
+                        responsive: true,
+                        ajax: '{{ url('dashboard/layanan-publik/json') }}',
                         columns: [
                             { data: 'id', name: 'id' },
-                            { data: 'title', name: 'title' },
+                            { data: 'type', name: 'type' },
                             {
                                 data: 'body',
                                 name: 'body',
                                 render: function(data, type, row) {
-                                    return type === 'display' && data.length > 50 ? data.substr(0, 50) + '...' : data;
+                                    return type === 'display' && data.length > 50 ? stripHtml(data.substr(0, 50)) + '...' : stripHtml(data);
                                 }
                             },
                             {
                                 data: null,
+                                name: 'action',
                                 render: function(data) {
                                     var edit_btn = '<a href="' + data.edit_url + '" class="btn btn-primary mr-2 mb-1" role="button" aria-pressed="true">Edit</a>';
-                                    var delete_btn = '<form class="form-inline mb-1" action="' + data.delete_url + '" method="POST"><input type="hidden" name="_method" value="delete">{{csrf_field()}}<button type="submit" class="btn btn-danger">Delete</button>';
+                                    var delete_btn = '<a data-toggle="confirmation" data-singleton="true" data-popout="true" href="' + data.delete_url + '" class="delete btn btn-danger mb-1">Delete</a>';
 
                                     return '<div class="form-inline">' + edit_btn + delete_btn + '</div>'
                                 }
                             }
                         ],
                         "language": {
-                            "emptyTable": "Berita tidak tersedia"
+                            "emptyTable": "Layanan Publik tidak tersedia"
                         }
                     });
                 });

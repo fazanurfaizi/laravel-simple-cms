@@ -24,15 +24,15 @@
     <section class="content">
         <div class="container-fluid">
             <p>
-                <a href="{{ url('/dashboard/news/create') }}" class="btn btn-primary">
-                    Tambahkan Berita
+                <a href="{{ url('/dashboard/layanan-hukum/create') }}" class="btn btn-primary">
+                    Tambahkan Layanan Hukum
                 </a>
             </p>
             <table class="table table-bordered table-striped" id="news-table" style="width: 100%;">
                <thead>
                   <tr>
                      <th style="width: 5%;">Id</th>
-                     <th style="width: 30;">Title</th>
+                     <th style="width: 30;">Type</th>
                      <th style="width: 45%">Body</th>
                      <th style="width: 20%;">Action</th>
                   </tr>
@@ -45,10 +45,10 @@
                         serverSide: true,
                         scrollX: true,
                         responsive: true,
-                        ajax: '{{ url('dashboard/news/json') }}',
+                        ajax: '{{ url('dashboard/layanan-hukum/json') }}',
                         columns: [
                             { data: 'id', name: 'id' },
-                            { data: 'title', name: 'title' },
+                            { data: 'type', name: 'type' },
                             {
                                 data: 'body',
                                 name: 'body',
@@ -68,7 +68,7 @@
                             }
                         ],
                         "language": {
-                            "emptyTable": "Berita tidak tersedia"
+                            "emptyTable": "Layanan Hukum tidak tersedia"
                         }
                     });
                 });

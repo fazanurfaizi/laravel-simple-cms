@@ -33,8 +33,8 @@
                   <tr>
                      <th style="width: 5%;">Id</th>
                      <th style="width: 30;">Title</th>
-                     <th style="width: 50%">Body</th>
-                     <th style="width: 15%;">Action</th>
+                     <th style="width: 45%">Body</th>
+                     <th style="width: 20%;">Action</th>
                   </tr>
                </thead>
             </table>
@@ -43,6 +43,8 @@
                     $('#features-table').DataTable({
                         processing: true,
                         serverSide: true,
+                        scrollX: true,
+                        responsive: true,
                         ajax: '{{ url('dashboard/features/json') }}',
                         columns: [
                             { data: 'id', name: 'id' },
@@ -59,7 +61,7 @@
                                 name: 'action',
                                 render: function(data) {
                                     var edit_btn = '<a href="' + data.edit_url + '" class="btn btn-primary mr-2 mb-1" role="button" aria-pressed="true">Edit</a>';
-                                    var delete_btn = '<a data-toggle="confirmation" data-singleton="true" data-popout="true" href="' + data.delete_url + '" class="delete btn btn-danger">Delete</a>';
+                                    var delete_btn = '<a data-toggle="confirmation" data-singleton="true" data-popout="true" href="' + data.delete_url + '" class="delete btn btn-danger mb-1">Delete</a>';
 
                                     return '<div class="form-inline">' + edit_btn + delete_btn + '</div>'
                                 }

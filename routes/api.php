@@ -35,4 +35,9 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('/latest', 'Api\FeaturesController@latest');
     });
 
+    Route::group(['prefix' => 'layanan'], function () {
+        Route::get('/hukum', 'Api\ServicesController@hukum');
+        Route::get('/publik', 'Api\ServicesController@publik');
+    });
+
 });
