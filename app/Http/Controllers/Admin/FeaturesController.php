@@ -31,13 +31,21 @@ class FeaturesController extends Controller
     }
 
     public function store(Request $request) {
+
+        $request->validate([
+            'title' => 'required|string',
+            'slug' => 'sometimes|string|unique:features',
+            'body' => 'required|string',
+            'image' => 'sometimes|mimes:jpg,jpeg,png,gif|max:1000'
+        ]);
+
         $features = new Features;
         $features->user_id = auth()->user()->id;
         $features->title = $request->title;
         $features->slug = isset($request->slug) ? $request->slug : str_slug($request->title);
         $features->body = $request->body;
 
-        $imagePath = public_path('/images/features/');
+        $imagePath = public_path('storage/images/features/');
         if(!file_exists($imagePath)) {
             mkdir($imagePath, 666, true);
         }
@@ -66,20 +74,32 @@ class FeaturesController extends Controller
     }
 
     public function update(Request $request, $id) {
-        $features = Features::find($id);
 
+        $request->validate([
+            'title' => 'required|string',
+            'slug' => 'sometimes|string',
+            'body' => 'required|string',
+            'image' => 'sometimes|mimes:jpg,jpeg,png,gif|max:1000'
+        ]);
+
+        $features = Features::find($id);
         $features->title = $request->title;
         $features->slug = isset($request->slug) ? $request->slug : str_slug($request->title);
         $features->body = $request->body;
 
         if($request->hasFile('image')) {
-            $imagePath = public_path('/images/features/');
+            $imagePath = public_path('storage/images/features/');
             $image = $request->image;
             $ext = $request->image->getClientOriginalExtension();
             $imageName = date('YmdHis') . rand(1, 999999) . '.' . $ext;
             $thumbnail = Image::make($image->getRealPath())->resize(512, 512);
             $thumbnailLocation = $imagePath . $imageName;
             $thumbnailImage = Image::make($thumbnail)->save($thumbnailLocation);
+
+            if($features->image != 'default-image.jpg') {
+                unlink($imagePath . $features->image);
+            }
+
             $features->image = $imageName;
         }
 
@@ -90,6 +110,12 @@ class FeaturesController extends Controller
 
     public function destroy($id) {
         $features = Features::find($id);
+
+        if($features->image != 'default-image.jpg') {
+            $imagePath = public_path('storage/images/features/');
+            unlink($imagePath . $features->image);
+        }
+
         $features->delete();
         return redirect('/dashboard/features/')->with('success', 'Fitur berhasil dihapus');
     }

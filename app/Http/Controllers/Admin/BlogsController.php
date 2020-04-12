@@ -10,11 +10,7 @@ use Image;
 
 class BlogsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         return view('admin.blogs.index');
@@ -35,21 +31,22 @@ class BlogsController extends Controller
         return view('admin.blogs.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|string|unique:blogs',
+            'slug' => 'sometimes|string|unique:blogs',
+            'body' => 'required|string',
+            'image' => 'sometimes|mimes:jpeg,jpg,png,gif|max:1000'
+        ]);
+
         $blog = new Blog();
         $blog->user_id = auth()->user()->id;
         $blog->title = $request->title;
         $blog->slug = str_slug($request->title);
         $blog->body = $request->body;
 
-        $imagePath = public_path('/images/blogs/');
+        $imagePath = public_path('storage/images/blogs/');
         if(!file_exists($imagePath)) {
             mkdir($imagePath, 666, true);
         }
@@ -71,45 +68,39 @@ class BlogsController extends Controller
         return redirect('/dashboard/blogs/')->with('success', 'Blog berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Blog  $blog
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Blog $blog)
-    {
-        //
-    }
-
     public function edit($id) {
         $data['blog'] = Blog::find($id);
         return view('admin.blogs.edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Blog  $blog
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        $blog = Blog::find($id);
 
+        $request->validate([
+            'title' => 'required|string|unique:blogs',
+            'slug' => 'sometimes|string|unique:blogs',
+            'body' => 'required|string',
+            'image' => 'sometimes|mimes:jpeg,jpg,png,gif|max:1000'
+        ]);
+
+        $blog = Blog::find($id);
         $blog->title = $request->title;
-        $blog->body = $request->body;
         $blog->slug = str_slug($request->title);
+        $blog->body = $request->body;
 
         if($request->hasFile('image')) {
-            $imagePath = public_path('/images/blogs/');
+            $imagePath = public_path('storage/images/blogs/');
             $image = $request->image;
             $ext = $request->image->getClientOriginalExtension();
             $imageName = date('YmdHis') . rand(1, 999999) . '.' . $ext;
             $thumbnail = Image::make($image->getRealPath())->resize(512, 512);
             $thumbnailLocation = $imagePath . $imageName;
             $thumbnailImage = Image::make($thumbnail)->save($thumbnailLocation);
+
+            if($blog->image != 'default-image.jpg') {
+                unlink($imagePath . $blog->image);
+            }
+
             $blog->image = $imageName;
         }
 
@@ -118,15 +109,15 @@ class BlogsController extends Controller
         return redirect('dashboard/blogs/')->with('success', 'Blog berhasil diedit');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Blog  $blog
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $blog = Blog::find($id);
+
+        if($blog->image != 'default-image.jpg') {
+            $imagePath = public_path('storage/images/blogs/');
+            unlink($imagePath . $blog->image);
+        }
+
         $blog->delete();
         return redirect('/dashboard/blogs/')->with('success', 'Blog berhasil dihapus');
     }

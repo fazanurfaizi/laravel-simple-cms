@@ -68,7 +68,7 @@
                             </div>
                             @if ($features->image)
                                 <div class="col-md-9">
-                                    <img src="{{ asset('/images/features/' . $features->image) }}" alt="{{ $features->title }}" style="width: 256px; height: 256px">
+                                    <img src="{{ asset('storage/images/features/' . $features->image) }}" alt="{{ $features->title }}" style="width: 256px; height: 256px">
                                 </div>
                                 <div class="clearfix"></div>
                             @endif

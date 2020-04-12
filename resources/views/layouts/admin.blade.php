@@ -56,10 +56,10 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <a href="/" class="brand-link">
                 <img src="{{ asset('plugins/adminlte/img/AdminLTELogo.png') }}"
-                    alt="{{ config('app.name', 'Portal Berita') }}" class="brand-image img-circle elevation-3"
+                    alt="{{ config('app.name', 'PN Painan') }}" class="brand-image img-circle elevation-3"
                     style="opacity: .8"
                 >
-                <span class="brand-text font-weight-light">{{ config('app.name', 'Portal Berita') }}</span>
+                <span class="brand-text font-weight-light">{{ config('app.name', 'PN Painan') }}</span>
             </a>
             <div class="sidebar">
                 {{-- User Panel --}}
@@ -98,10 +98,18 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ url('/dashboard/blogs/') }}"
+                                class="nav-link @if($segment == 'blogs') active @endif"
+                            >
+                                <i class="nav-icon fa fa-book"></i>
+                                <p>Blog</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ url('/dashboard/layanan-hukum') }}"
                                 class="nav-link @if($segment == 'layanan-hukum') active @endif"
                             >
-                                <i class="nav-icon fa fa-ruble"></i>
+                                <i class="nav-icon fa fa-gavel"></i>
                                 <p>Layanan Hukum</p>
                             </a>
                         </li>
@@ -109,16 +117,32 @@
                             <a href="{{ url('/dashboard/layanan-publik') }}"
                                 class="nav-link @if($segment == 'layanan-publik') active @endif"
                             >
-                                <i class="nav-icon fa fa-ruble"></i>
+                                <i class="nav-icon fa fa-building-o"></i>
                                 <p>Layanan Publik</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('/dashboard/blogs/') }}"
-                                class="nav-link @if($segment == 'blogs') active @endif"
+                            <a href="{{ url('/dashboard/information') }}"
+                                class="nav-link @if($segment == 'information') active @endif"
                             >
-                                <i class="nav-icon fa fa-book"></i>
-                                <p>Blog</p>
+                                <i class="nav-icon fa fa-info-circle"></i>
+                                <p>Layanan Informasi</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/dashboard/about') }}"
+                                class="nav-link @if($segment == 'about') active @endif"
+                            >
+                                <i class="nav-icon fa fa-address-card"></i>
+                                <p>About Page</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/dashboard/filemanager') }}"
+                                class="nav-link @if($segment == 'about') active @endif"
+                            >
+                                <i class="nav-icon fa fa-file"></i>
+                                <p>Filemanager</p>
                             </a>
                         </li>
                         <li class="nav-header"></li>

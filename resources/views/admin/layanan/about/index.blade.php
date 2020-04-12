@@ -24,11 +24,11 @@
     <section class="content">
         <div class="container-fluid">
             <p>
-                <a href="{{ url('/dashboard/layanan-hukum/create') }}" class="btn btn-primary">
-                    Tambahkan Layanan Hukum
+                <a href="{{ url('/dashboard/about/create') }}" class="btn btn-primary">
+                    Tambahkan About Page
                 </a>
             </p>
-            <table class="table table-bordered table-striped" id="layanan-hukum-table" style="width: 100%;">
+            <table class="table table-bordered table-striped" id="about-table" style="width: 100%;">
                <thead>
                   <tr>
                      <th style="width: 5%;">Id</th>
@@ -63,12 +63,12 @@
 
     <script>
         $(function() {
-            $('#layanan-hukum-table').DataTable({
+            $('#about-table').DataTable({
                 processing: true,
                 serverSide: true,
                 scrollX: true,
                 responsive: true,
-                ajax: '{{ url('dashboard/layanan-hukum/json') }}',
+                ajax: '{{ url('dashboard/about/json') }}',
                 columns: [
                     { data: 'id', name: 'id' },
                     { data: 'type', name: 'type' },
@@ -93,11 +93,11 @@
                     }
                 ],
                 "language": {
-                    "emptyTable": "Layanan Hukum tidak tersedia"
+                    "emptyTable": "Tidak ada about page. Buat about page baru"
                 }
             });
 
-            $('#layanan-hukum-table').DataTable().on('click', '.btn-delete[data-remote]' ,function (e) {
+            $('#about-table').DataTable().on('click', '.btn-delete[data-remote]' ,function (e) {
                 e.preventDefault();
                 var url = $(this).data('remote');
                 $('.delete-modal-btn').on('click',function (e) {
@@ -113,7 +113,7 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         }
                     }).always(function (data) {
-                        $('#layanan-hukum-table').DataTable().draw(false);
+                        $('#about-table').DataTable().draw(false);
                     });
                 });
             });

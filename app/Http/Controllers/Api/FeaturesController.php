@@ -10,7 +10,11 @@ class FeaturesController extends Controller
 {
     public function latest()
     {
-        $features = Features::latest()->get();
+        $features = Features::latest()->take(5)->get();
+        foreach ($features as $item) {
+            $item['image'] = $item->getImageUrl();
+        }
+
         return response()->json([
             'data' => $features
         ], 200);
@@ -19,6 +23,10 @@ class FeaturesController extends Controller
     public function index()
     {
         $features = Features::all();
+        foreach ($features as $item) {
+            $item['image'] = $item->getImageUrl();
+        }
+
         return response()->json([
             'data' => $features
         ], 200);

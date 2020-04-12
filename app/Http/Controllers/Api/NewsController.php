@@ -11,6 +11,10 @@ class NewsController extends Controller
     public function latest()
     {
         $news = News::latest()->get();
+        foreach ($news as $item) {
+            $item['image'] = $item->getImageUrl();
+        }
+
         return response()->json([
             'data' => $news
         ], 200);
@@ -19,6 +23,10 @@ class NewsController extends Controller
     public function index()
     {
         $news = News::all();
+        foreach ($news as $item) {
+            $item['image'] = $item->getImageUrl();
+        }
+
         return response()->json([
             'data' => $news
         ], 200);

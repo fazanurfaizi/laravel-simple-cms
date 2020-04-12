@@ -10,11 +10,7 @@ use Image;
 
 class NewsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         return view('admin.news.index');
@@ -31,24 +27,20 @@ class NewsController extends Controller
             ->make(true);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('admin.news.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|string',
+            'slug' => 'sometimes|string|unique:news',
+            'body' => 'required|string',
+            'image' => 'sometimes|mimes:jpg,jpeg,png,gif'
+        ]);
+
         $news = New News();
         $news->user_id = auth()->user()->id;
         $news->title = $request->title;
@@ -56,7 +48,7 @@ class NewsController extends Controller
         $news->body = $request->body;
 
 
-        $imagePath = public_path('/images/news/');
+        $imagePath = public_path('storage/images/news/');
         if(!file_exists($imagePath)) {
             mkdir($imagePath, 666, true);
         }
@@ -78,23 +70,6 @@ class NewsController extends Controller
         return redirect('dashboard/news/')->with('success', 'Berita berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         $news = News::find($id);
@@ -102,29 +77,33 @@ class NewsController extends Controller
         return view('admin.news.edit', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        $news = News::find($id);
+        $request->validate([
+            'title' => 'required|string',
+            'slug' => 'sometimes|string|unique:news',
+            'body' => 'required|string',
+            'image' => 'sometimes|mimes:jpg,jpeg,png,gif'
+        ]);
 
+        $news = News::find($id);
         $news->title = $request->title;
-        $news->body = $request->body;
         $news->slug = str_slug($request->title);
+        $news->body = $request->body;
 
         if($request->hasFile('image')) {
-            $imagePath = public_path('/images/news/');
+            $imagePath = public_path('storage/images/news/');
             $image = $request->image;
             $ext = $request->image->getClientOriginalExtension();
             $imageName = date('YmdHis') . rand(1, 999999) . '.' . $ext;
             $thumbnail = Image::make($image->getRealPath())->resize(512, 512);
             $thumbnailLocation = $imagePath . $imageName;
             $thumbnailImage = Image::make($thumbnail)->save($thumbnailLocation);
+
+            if($news->image != 'default-image.jpg') {
+                unlink($imagePath . $news->image);
+            }
+
             $news->image = $imageName;
         }
 
@@ -133,15 +112,15 @@ class NewsController extends Controller
         return redirect('dashboard/news/')->with('success', 'Berita berhasil diedit');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $news = News::find($id);
+
+        if($news->image != 'default-image.jpg') {
+            $imagePath = public_path('storage/images/news/');
+            unlink($imagePath . $news->image);
+        }
+
         $news->delete();
         return redirect('dashboard/news/')->with('success', 'Berita berhasil dihapus');
     }

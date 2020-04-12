@@ -23,11 +23,13 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'news'], function () {
         Route::get('/', 'Api\NewsController@index');
         Route::get('/latest', 'Api\NewsController@latest');
+        Route::get('/{slug}', 'Api\NewsController@show');
     });
 
     Route::group(['prefix' => 'blogs'], function () {
         Route::get('/', 'Api\BlogsController@index');
         Route::get('/latest', 'Api\BlogsController@latest');
+        Route::get('/{slug}', 'Api\BlogsController@show');
     });
 
     Route::group(['prefix' => 'features'], function () {
@@ -38,6 +40,8 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'layanan'], function () {
         Route::get('/hukum', 'Api\ServicesController@hukum');
         Route::get('/publik', 'Api\ServicesController@publik');
+        Route::get('/info', 'Api\ServicesController@information');
+        Route::get('/about', 'Api\ServicesController@about');
     });
 
 });
