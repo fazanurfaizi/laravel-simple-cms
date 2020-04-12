@@ -30,6 +30,10 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
 
     Route::get('/', 'Admin\DashboardController@index');
 
+    Route::group(['prefix' => 'filemanager'], function () {
+        Route::get('/', '\UniSharp\LaravelFilemanager\Controllers\LfmController@show');
+    });
+
     Route::group(['prefix' => 'layanan-publik'], function () {
         Route::get('/', 'Admin\PublikController@index');
         Route::get('/json', 'Admin\PublikController@json');

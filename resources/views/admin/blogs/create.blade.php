@@ -22,6 +22,20 @@
     </div>
 
     <section class="content">
+
+        @if (count($errors) > 0)
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="container-fluid">
             <form action="{{ url('dashboard/blogs/store') }}" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -29,7 +43,7 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-12">
-                            <input type="text" name="title" class="form-control" placeholder="Tambahkan Judul">
+                            <input type="text" name="title" class="form-control" placeholder="Tambahkan Judul" value="{{ old('title') }}">
                         </div>
                         <div class="clearfix"></div>
                     </div>
@@ -39,6 +53,7 @@
                     <div class="row">
                         <div class="col-md-12">
                                 <textarea name="body" class="form-control my-editor mx-auto" style="min-height: 512px">
+                                    {{ old('body') }}
                                 </textarea>
                             <div class="clearfix"></div>
                         </div>
@@ -51,7 +66,7 @@
                         <label for="image" class="col-md-3">Gambar</label>
                         <div class="col-md-6">
                             <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="image" name="image">
+                                <input type="file" class="custom-file-input" id="image" name="image" value="{{ old('image') }}">
                                 <label class="custom-file-label" for="image"></label>
                             </div>
                         </div>
