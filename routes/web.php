@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,11 +18,17 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index');
 
+Route::get('create-symlink', function() {
+    Artisan::call('storage:link');
+});
+
+Route::get('create-database', function() {
+    Artisan::call('migrate');
+});
+
 Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
 
     Route::get('/', 'Admin\DashboardController@index');
-
-    Route::get('/filemanager', '\UniSharp\LaravelFilemanager\Controllers\LfmController@show');
 
     Route::group(['prefix' => 'layanan-publik'], function () {
         Route::get('/', 'Admin\PublikController@index');

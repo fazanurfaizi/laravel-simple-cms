@@ -22,10 +22,6 @@
     <link rel="stylesheet" href="{{ asset('plugins/morris/morris.css') }}">
     {{-- jvectormap --}}
     <link rel="stylesheet" href="{{ asset('plugins/jvectormap/jquery-jvectormap-1.2.2.css') }}">
-    {{-- Date Picker --}}
-    <link rel="stylesheet" href="{{ asset('plugins/datepicker/datepicker3.css') }}">
-    {{-- Daterange picker --}}
-    <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker-bs3.css') }}">
     {{-- Google Font --}}
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     {{-- Bootstrap --}}
@@ -200,9 +196,6 @@
     <script src="{{ asset('plugins/jvectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
     <script src="{{ asset('plugins/knob/jquery.knob.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
-    <script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
-    <script src="{{ asset('plugins/datepicker/bootstrap-datepicker.js') }}"></script>
-    <script src="{{ asset('plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
     <script src="{{ asset('plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
     <script src="{{ asset('plugins/adminlte/js/adminlte.js') }}"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
